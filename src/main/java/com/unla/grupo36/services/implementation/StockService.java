@@ -4,6 +4,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +20,8 @@ import com.unla.grupo36.services.IStockService;
 @Service("stockService")
 public class StockService implements IStockService {
 
+	private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
+	
 	private IProductRepository productRepository;
 
 	private ILotRepository lotRepository;
@@ -37,15 +41,26 @@ public class StockService implements IStockService {
 	public void updateOrCreateStock() {
 		List<Lot> products = lotRepository.findProductWithoutStock();
 
+		LOGGER.debug("Se actualizarán {} lotes", products.size());
+		
 		for (Lot lot : products) {
 			Set<Lot> lotSet = new HashSet<Lot>();
 			lotSet.add(lot);
 			int stockId = findStock(lot.getProduct().getId());
 			Stock stock = stockRepository.save(new Stock(stockId, lot.getProductQantity(), lotSet, lot.getProduct()));
+			
+			LOGGER.debug("Se generará un nuevo Stock para el producto {}", lot.getProduct().getName());
 			stockRepository.updateStockWithProduct(stock.getProduct().getId(), stock.getId());
+			
+			LOGGER.debug("Se asignará el Stock {} al Producto {}", stock.getId(), lot.getProduct().getName());
 			productRepository.updateProductWithStock(stock.getProduct().getId(), stock.getId());
+			
+			LOGGER.debug("Se asignará el Stock {} al Lote {}", stock.getId(), lot.getId());
 			lotRepository.updateLotWithStock(stock.getId(), lot.getId());
+			
 		}
+		
+		LOGGER.debug("Se actualizaron correctamente los lotes y productos, con sus stocks correspondientes");
 
 	}
 
@@ -61,15 +76,26 @@ public class StockService implements IStockService {
 	}
 
 	@Override
-	public Stock getById() {
+	public Stock getById(int id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<PurchaseOrderDTO> generatePurchaseOrder() {
-		// TODO Auto-generated method stub
-		return null;
+	@Transactional
+	public void generatePurchaseOrder() {
+		List<Stock> stocks = stockRepository.findAll();
+		
+		
+		for (Stock stock : stocks) {
+			if(stock.getProductQantity() == 0 && Boolean.FALSE.equals(stock.isOrdered())) {
+				Lot lot = lotRepository.findByStockId(stock.getId());
+				LOGGER.debug("Se generará una orden de compra para el producto {}", stock.getProduct().getName());
+				LOGGER.debug("Se solicita a {} la reposición de 100 unidades del producto {}", lot.getSupplierName(), stock.getProduct().getName());
+				
+				stockRepository.updateProductOrdered(stock.getId());
+			}
+		}
 	}
 
 }

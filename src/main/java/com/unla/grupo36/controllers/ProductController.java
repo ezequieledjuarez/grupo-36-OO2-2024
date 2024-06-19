@@ -68,35 +68,4 @@ public class ProductController {
 		mAV.addObject("product", productDTO);
 		return mAV;
 	}
-
-//	@GetMapping("/by_name/{name}")
-//	public ModelAndView getByName(@PathVariable("name") String name) throws Exception {
-//		ModelAndView mAV = new ModelAndView(ViewRouteHelper.PERSON_UPDATE);
-//		PersonDTO personDTO = modelMapper.map(personService.findByName(name), PersonDTO.class);
-//		mAV.addObject("person", personDTO);
-//		return mAV;
-//	}
-//
-//	@GetMapping("/by_degree/{degree_name}")
-//	public ModelAndView getByDegreeName(@PathVariable("degree_name") String degreeName) {
-//		ModelAndView mAV = new ModelAndView(ViewRouteHelper.PERSON_INDEX);
-//		mAV.addObject("persons", personService.findByDegreeName(degreeName));
-//		return mAV;
-//	}
-//
-//	@PostMapping("/update")
-//	public RedirectView update(@ModelAttribute("person") PersonDTO personDTO) throws Exception {
-//		Person personToUpdate = modelMapper.map(personService.findById(personDTO.getId()).get(), Person.class);
-//		if(personToUpdate != null ) {
-//			personToUpdate.setName(personDTO.getName());
-//			personService.insertOrUpdate(personToUpdate);
-//		}
-//		return new RedirectView(ViewRouteHelper.PERSON_ROOT);
-//	}
-//
-//	@PostMapping("/delete/{id}")
-//	public RedirectView delete(@PathVariable("id") int id) {
-//		personService.remove(id);
-//		return new RedirectView(ViewRouteHelper.PERSON_ROOT);
-//	}
 }

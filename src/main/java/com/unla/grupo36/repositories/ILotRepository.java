@@ -21,4 +21,7 @@ public interface ILotRepository extends JpaRepository<Lot, Integer> {
 	,nativeQuery = true)
 	public abstract void updateLotWithStock(@Param("stockId") int stockId, @Param("id") int id);
 
+	@Query("SELECT l FROM Lot l JOIN FETCH l.stock s WHERE s.id=:stockId")
+	public abstract Lot findByStockId(@Param("stockId") int id);
+
 }

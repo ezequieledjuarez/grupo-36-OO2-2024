@@ -5,7 +5,6 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.unla.grupo36.entities.Product;
 import com.unla.grupo36.entities.Stock;
 
 public interface IStockRepository extends JpaRepository<Stock, Integer> {
@@ -18,4 +17,10 @@ public interface IStockRepository extends JpaRepository<Stock, Integer> {
 	"UPDATE Stock s set s.product_id = :productId where s.id = :id"
 	,nativeQuery = true)
 	public abstract void updateStockWithProduct(@Param("productId") int productId, @Param("id") int id);
+
+	@Modifying
+	@Query(value=
+	"UPDATE Stock s set s.ordered=1 WHERE s.id = :stockId"
+	,nativeQuery = true)
+	public abstract void updateProductOrdered(@Param("stockId") int stockId);
 }
