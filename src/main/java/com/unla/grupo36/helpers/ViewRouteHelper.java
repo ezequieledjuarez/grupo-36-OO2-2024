@@ -25,6 +25,11 @@ public class ViewRouteHelper {
 	public static final String PRODUCT_EDIT = "products/edit";
 
 	
+	//LOT
+	public static final String LOT_ADD = "/lots/add";
+
+	
+	
 	//USER
 	public final static String USER_LOGIN = "user/login";
 	public final static String USER_LOGOUT = "user/logout";

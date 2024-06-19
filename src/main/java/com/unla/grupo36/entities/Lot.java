@@ -1,7 +1,8 @@
 package com.unla.grupo36.entities;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -26,18 +27,20 @@ public class Lot {
 	
 	@Column(name="product_qantity", unique=true, nullable=false)
 	private int productQantity;
-	@Column(name="supplier_name", unique=true, nullable=false)
+	@Column(name="supplier_name", unique=false, nullable=false)
 	private String supplierName;
-	@Column(name="lot_price", unique=true, nullable=false)
+	@Column(name="lot_price", unique=false, nullable=false)
 	private float lotPrice;
-	@Column(name="reception_date", unique=true, nullable=false)
-	private LocalDate receptionDate;
-
-	@ManyToOne(fetch = FetchType.LAZY)
+	@Column(name="reception_date", unique=false, nullable=false)
+	private LocalDateTime receptionDate;
+	@ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
 	@JoinColumn(name="product_id", nullable=true)
 	private Product product;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="stock_id")
+	private Stock stock;
 
-	public Lot(int productQantity, String supplierName, float lotPrice, LocalDate receptionDate, Product product) {
+	public Lot(int productQantity, String supplierName, float lotPrice, LocalDateTime receptionDate, Product product) {
 		super();
 		this.productQantity = productQantity;
 		this.supplierName = supplierName;

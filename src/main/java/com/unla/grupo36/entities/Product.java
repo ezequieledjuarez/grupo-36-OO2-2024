@@ -42,6 +42,14 @@ public class Product {
 		this.sellingPrice = null == sellingPrice ? purchasePrice * 1.40f : sellingPrice;
 		this.isAvailable = null == isAvailable ? true: false;
 	}
-	
+
+	public Product(String name, String description, Float purchasePrice) {
+		super();
+		this.name = name;
+		this.description = description;
+		this.purchasePrice = purchasePrice;
+		this.sellingPrice =  purchasePrice * 1.40f;
+		this.isAvailable = true;
+	}
 	
 }
