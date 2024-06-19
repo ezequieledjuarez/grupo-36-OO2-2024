@@ -25,7 +25,7 @@ public class Lot {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	@Column(name="product_qantity", unique=true, nullable=false)
+	@Column(name="product_qantity", unique=false, nullable=false)
 	private int productQantity;
 	@Column(name="supplier_name", unique=false, nullable=false)
 	private String supplierName;
@@ -36,8 +36,8 @@ public class Lot {
 	@ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
 	@JoinColumn(name="product_id", nullable=true)
 	private Product product;
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="stock_id")
+	@ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+	@JoinColumn(name = "stock_id", referencedColumnName = "id")
 	private Stock stock;
 
 	public Lot(int productQantity, String supplierName, float lotPrice, LocalDateTime receptionDate, Product product) {
