@@ -1,0 +1,9 @@
+<form action="#" th:action="@{/products/add}" th:object="${product}" method="post">
+	<p>ID: <input type="text" th:field="*{id}" /></p>
+	<p>Nombre: <input type="text" th:field="*{name}" /></p>
+	<p>Descripcion: <input type="text" th:field="*{description}" /></p>
+	<p>Precio de Compra: <input type="text" th:field="*{purchasePrice}" /></p>
+	<p>Precio de venta: <input type="text" th:field="*{sellingPrice}" /></p>
+
+	<input type="submit" value="actualizar"/>
+</form>
