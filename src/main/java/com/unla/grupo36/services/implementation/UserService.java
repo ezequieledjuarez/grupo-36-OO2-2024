@@ -5,30 +5,48 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.unla.grupo36.dtos.UserDTO;
 import com.unla.grupo36.entities.UserRole;
+import com.unla.grupo36.helpers.BCryptPasswordEncoderHelper;
 import com.unla.grupo36.repositories.IUserRepository;
+import com.unla.grupo36.repositories.IUserRoleRepository;
+import com.unla.grupo36.services.IUserService;
 
 @Service("userService")
-public class UserService implements UserDetailsService {
+public class UserService implements UserDetailsService, IUserService{
 
 	private IUserRepository userRepository;
+	private IUserRoleRepository userRoleRepository;
+	
+	private ModelMapper modelMapper = new ModelMapper();
 
-	public UserService(IUserRepository userRepository) {
+	
+	public UserService(IUserRepository userRepository, IUserRoleRepository userRoleRepository) {
 		this.userRepository = userRepository;
+		this.userRoleRepository = userRoleRepository;
 	}
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		com.unla.grupo36.entities.User user = userRepository.findByUsernameAndFetchUserRolesEagerly(username);
 		return buildUser(user, buildGrantedAuthorities(user.getUserRoles()));
+	}
+	
+	public com.unla.grupo36.entities.User insertOrUpdate(UserDTO userToInsert) {
+		com.unla.grupo36.entities.User user = new com.unla.grupo36.entities.User(userToInsert.getUsername(), BCryptPasswordEncoderHelper.encodePassword(userToInsert.getPassword()), true); 
+		
+		return userRepository.save(user);
 	}
 
 	private User buildUser(com.unla.grupo36.entities.User user, List<GrantedAuthority> grantedAuthorities) {
@@ -44,4 +62,20 @@ public class UserService implements UserDetailsService {
 		}
 		return new ArrayList<>(grantedAuthorities);
 	}
+
+	@Override
+	@Transactional
+	public void insertIfDatabaseIsEmpty(UserDTO userDTO) {
+		List<com.unla.grupo36.entities.User> users = userRepository.findAll();
+		
+		if(users.isEmpty()) {
+			com.unla.grupo36.entities.User user = userRepository.save(modelMapper.map(userDTO, com.unla.grupo36.entities.User.class));
+			userRepository.activeUser(user.getId());
+			userRoleRepository.save(new UserRole(1, user, "ROLE_ADMIN"));
+		}
+			
+	}
+
+
+
 }

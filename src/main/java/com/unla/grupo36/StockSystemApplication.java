@@ -6,9 +6,9 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @EnableScheduling
-public class GhsicilianotfiApplication {
+public class StockSystemApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(GhsicilianotfiApplication.class, args);
+		SpringApplication.run(StockSystemApplication.class, args);
 	}
 }
