@@ -1,0 +1,10 @@
+<form action="#" th:action="@{/lots/new}" th:object="${lot}" method="post">
+	<p>Cantidad: <input type="text" th:field="*{productQantity}" /></p>
+	<p>Proveedor: <input type="text" th:field="*{supplierName}" /></p>
+	<p>Precio del Lote: <input type="text" th:field="*{lotPrice}" /></p>
+	<p>Fecha de Recepcion: <input type="datetime-local" th:field="*{receptionDate}" /></p>
+	<p>Nombre: <input type="text" th:field="*{name}" /></p>
+	<p>Descripcion: <input type="text" th:field="*{description}" /></p>
+
+	<input type="submit" value="cargar" />
+</form>
