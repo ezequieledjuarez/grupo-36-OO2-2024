@@ -18,7 +18,7 @@
 				<li class="nav-item"><a class="nav-link" href="/">Home</a>
 				</li>
 				<li class="nav-item dropdown"><a aria-expanded="false" aria-haspopup="true"
-						class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="navbarDropdownBlog"> User
+						class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="navbarDropdownBlog">
 						<span th:text="${username}" />
 					</a>
 					<div aria-labelledby="navbarDropdownBlog" class="dropdown-menu dropdown-menu-right">
@@ -33,24 +33,33 @@
 		</div>
 	</div>
 </nav>
-<table border="1px">
+<table class="table table-striped">
 	<thead>
 		<tr>
 			<th>Nombre del Producto</th>
-			<th>Ver</th>
+			<th>Disponibilidad</th>
+			<th>Precio de Venta</th>
+			<th>Precio de Compra</th>
+			<th>Detalle</th>
+
 		</tr>
 	</thead>
 	<tbody>
 		<tr th:each="product : ${products}">
 			<td><span th:text="${product.name}" /></td>
 			<td>
-				<a th:href="@{/products/{id}(id=${product.id})}">Ver</a>
-			</td>
-			<td>
 				<span th:if="${product.isAvailable}">En Stock</span>
 				<span th:unless="${product.isAvailable}">Sin Stock</span>
 			</td>
+			<td th:with="sellingPrice=(${product.sellingPrice})"><span
+					th:text="${#numbers.formatDecimal(sellingPrice,3,2,'COMMA')}" /></td>
+			<td th:with="purchasePrice=(${product.purchasePrice})"><span
+					th:text="${#numbers.formatDecimal(purchasePrice,3,2,'COMMA')}" /></td>
+			<td>
+				<a th:href="@{/products/{id}(id=${product.id})}">Ver</a>
+			</td>
 		</tr>
+
 	</tbody>
 </table>
-<a href="/products/new">Agregar Producto</a>
+<a class="btn btn-primary" href="/products/new">Agregar Producto</a>
