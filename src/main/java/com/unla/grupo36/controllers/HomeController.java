@@ -12,15 +12,18 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import com.unla.grupo36.helpers.ViewRouteHelper;
 import com.unla.grupo36.services.IPersonService;
+import com.unla.grupo36.services.IProductService;
 
 @Controller
 @RequestMapping("/")
 public class HomeController {
 
 	private IPersonService personService;
+	private IProductService productService;
 	
-	public HomeController(IPersonService personService) {
+	public HomeController(IPersonService personService, IProductService productService) {
 		this.personService = personService;
+		this.productService = productService;
 	}
 
 	//GET Example: SERVER/index
@@ -29,25 +32,10 @@ public class HomeController {
 		ModelAndView modelAndView = new ModelAndView(ViewRouteHelper.INDEX);
 		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		modelAndView.addObject("username", user.getUsername());
-		modelAndView.addObject("persons", personService.getAll());
+		modelAndView.addObject("products", productService.getAll());
 		return modelAndView;
 	}
 
-	//GET Example: SERVER/hello?name=someName
-	@GetMapping("/hello")
-	public ModelAndView helloParams1(@RequestParam(name="name", required=false, defaultValue="null") String name) {
-		ModelAndView mV = new ModelAndView(ViewRouteHelper.HELLO);
-		mV.addObject("name", name);
-		return mV;
-	}
-
-	//GET Example: SERVER/hello/someName
-	@GetMapping("/hello/{name}")
-	public ModelAndView helloParams2(@PathVariable("name") String name) {
-		ModelAndView mV = new ModelAndView(ViewRouteHelper.HELLO);
-		mV.addObject("name", name);
-		return mV;
-	}
 
 	@GetMapping("/")
 	public RedirectView redirectToHomeIndex() {
