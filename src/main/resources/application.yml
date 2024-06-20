@@ -1,0 +1,20 @@
+spring:
+  datasource:
+    url:  ${db_url}
+    username: ${db_user}
+    password: ${db_password}
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      dialect: org.hibernate.dialect.MySQL5Dialect
+  thymeleaf:
+    cache: false
+logging:
+  file.name: logs/application-debug.log
+  pattern:
+    console: "%d %-5level %logger : %msg%n"
+    file: "%d %-5level [%thread] %logger : %msg%n"
+  level:
+    com: DEBUG
