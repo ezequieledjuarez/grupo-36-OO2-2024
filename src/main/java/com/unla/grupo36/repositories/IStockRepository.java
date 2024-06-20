@@ -14,7 +14,7 @@ public interface IStockRepository extends JpaRepository<Stock, Integer> {
 
 	@Modifying
 	@Query(value=
-	"UPDATE Stock s set s.product_id = :productId where s.id = :id"
+	"UPDATE Stock s SET s.product_id=:productId where s.id=:id"
 	,nativeQuery = true)
 	public abstract void updateStockWithProduct(@Param("productId") int productId, @Param("id") int id);
 

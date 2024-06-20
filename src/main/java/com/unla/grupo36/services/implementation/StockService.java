@@ -49,9 +49,6 @@ public class StockService implements IStockService {
 			int stockId = findStock(lot.getProduct().getId());
 			Stock stock = stockRepository.save(new Stock(stockId, lot.getProductQantity(), lotSet, lot.getProduct()));
 			
-			LOGGER.debug("Se generará un nuevo Stock para el producto {}", lot.getProduct().getName());
-			stockRepository.updateStockWithProduct(stock.getProduct().getId(), stock.getId());
-			
 			LOGGER.debug("Se asignará el Stock {} al Producto {}", stock.getId(), lot.getProduct().getName());
 			productRepository.updateProductWithStock(stock.getProduct().getId(), stock.getId());
 			
