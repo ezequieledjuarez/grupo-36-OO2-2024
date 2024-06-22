@@ -1,5 +1,6 @@
 package com.unla.grupo36.controllers;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -15,6 +16,7 @@ import com.unla.grupo36.helpers.ViewRouteHelper;
 import com.unla.grupo36.services.ILotService;
 import com.unla.grupo36.services.IProductService;
 
+@PreAuthorize("hasRole('ROLE_ADMIN')")
 @Controller
 @RequestMapping("/lots")
 public class LotController {
@@ -26,8 +28,18 @@ public class LotController {
 		this.productService = productService;
 	}
 
-	@GetMapping("/add")
+	
+	@GetMapping("/index")
 	public ModelAndView index() {
+		ModelAndView modelAndView = new ModelAndView(ViewRouteHelper.INDEX);
+		ModelAndView mAV = new ModelAndView(ViewRouteHelper.PRODUCT_INDEX);
+		mAV.addObject("lots", lotService.getAll());
+		return modelAndView;
+	}
+	
+	
+	@GetMapping("/add")
+	public ModelAndView add() {
 		ModelAndView mAV = new ModelAndView(ViewRouteHelper.LOT_ADD);
 		mAV.addObject("lot", new LotDTO());
 		mAV.addObject("products", productService.getAll());

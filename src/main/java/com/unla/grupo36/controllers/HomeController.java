@@ -1,5 +1,8 @@
 package com.unla.grupo36.controllers;
 
+import java.util.stream.Stream;
+
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
@@ -27,6 +30,7 @@ public class HomeController {
 		ModelAndView modelAndView = new ModelAndView(ViewRouteHelper.INDEX);
 		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		modelAndView.addObject("username", user.getUsername());
+		modelAndView.addObject("isAdmin", user.getAuthorities().stream().anyMatch(x -> x.getAuthority().equals("ROLE_ADMIN")));
 		modelAndView.addObject("products", productService.getAll());
 		return modelAndView;
 	}

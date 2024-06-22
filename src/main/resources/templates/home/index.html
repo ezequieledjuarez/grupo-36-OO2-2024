@@ -22,8 +22,8 @@
 				<ul class="navbar-nav ml-auto">
 					<li class="nav-item"><a class="nav-link" href="/products">Productos</a>
 					</li>
-					<li class="nav-item"><a class="nav-link" href="/lots/add">Cargar Lote</a>
 
+					<li th:if="${isAdmin}" class="nav-item"><a class="nav-link" href="/lots/add">Cargar Lote</a></li>
 					<li class="nav-item dropdown"><a aria-expanded="false" aria-haspopup="true"
 							class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="navbarDropdownBlog">
 

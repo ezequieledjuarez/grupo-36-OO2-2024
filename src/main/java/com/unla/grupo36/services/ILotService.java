@@ -10,6 +10,8 @@ public interface ILotService {
 	public Lot loadLot(Lot lot);
 
 	public List<Lot> loadLot(List<Lot> lots);
+	
+	public List<Lot> getAll();
 
 	public Optional<Lot> getLot(int id);
 }

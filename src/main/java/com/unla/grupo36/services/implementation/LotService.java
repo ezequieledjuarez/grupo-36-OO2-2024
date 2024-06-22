@@ -15,6 +15,7 @@ public class LotService implements ILotService{
 	private ILotRepository lotRepository;
 	
 
+
 	public LotService(ILotRepository lotRepository) {
 		super();
 		this.lotRepository = lotRepository;
@@ -36,6 +37,11 @@ public class LotService implements ILotService{
 	public Optional<Lot> getLot(int id) {
 
 		return lotRepository.findById(id);
+	}
+
+	@Override
+	public List<Lot> getAll() {
+		return lotRepository.findAll();
 	}
 
 
