@@ -49,8 +49,6 @@ public class StockScheduler {
 	        LOGGER.debug("Se creará un usuario con rol admin si no existe ninguno en la base de datos");
 	        userService.insertIfDatabaseIsEmpty(new UserDTO("root", BCryptPasswordEncoderHelper.encodePassword("root")));
 	        LOGGER.debug("Se cargarán productos a la base de datos si no existe ninguno");
-	       
-
-			productService.insertOrUpdateBatch(AddProductsHelper.addProducts());
+			productService.insertOrUpdateBatchIfDatabaseIsEmpty(AddProductsHelper.addProducts());
 	    }
 }
