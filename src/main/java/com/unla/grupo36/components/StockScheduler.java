@@ -1,15 +1,11 @@
 package com.unla.grupo36.components;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.unla.grupo36.dtos.UserDTO;
-import com.unla.grupo36.entities.Product;
 import com.unla.grupo36.helpers.AddProductsHelper;
 import com.unla.grupo36.helpers.BCryptPasswordEncoderHelper;
 import com.unla.grupo36.services.IProductService;
