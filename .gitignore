@@ -25,3 +25,5 @@
 /.nb-gradle/
 
 .metadata
+application.yml
+logs
