@@ -48,4 +48,12 @@ public class ProductService implements IProductService {
 		return productRepository.saveAll(products);
 	}
 
+	@Override
+	public void insertOrUpdateBatchIfDatabaseIsEmpty(List<Product> addProducts) {
+		
+			if(productRepository.findAll().isEmpty())
+				insertOrUpdateBatch(addProducts);
+		
+	}
+
 }

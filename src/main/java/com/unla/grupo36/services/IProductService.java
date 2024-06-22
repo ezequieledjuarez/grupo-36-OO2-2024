@@ -17,4 +17,6 @@ public interface IProductService {
 
 	public List<Product> insertOrUpdateBatch(List<Product> products);
 
+	public void insertOrUpdateBatchIfDatabaseIsEmpty(List<Product> addProducts);
+
 }
