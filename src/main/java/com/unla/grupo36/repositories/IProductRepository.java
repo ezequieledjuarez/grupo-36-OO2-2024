@@ -11,8 +11,10 @@ import com.unla.grupo36.entities.Product;
 
 public interface IProductRepository extends JpaRepository<Product, Integer>{
 
-	@Query("SELECT p FROM Product p WHERE p.name LIKE(:name)")
-	public abstract List<Product> findByProductName(String name);
+	
+	@Query(value = "select * from Product p where p.name like %:name%", nativeQuery = true)
+
+	public abstract List<Product> findByProductName(@Param("name")String name);
 	
 	@Query("SELECT p FROM Product p where p.stock is null")
 	public abstract List<Product> findProductWithoutStock();

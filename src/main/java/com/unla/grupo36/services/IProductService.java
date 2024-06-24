@@ -19,4 +19,6 @@ public interface IProductService {
 
 	public void insertOrUpdateBatchIfDatabaseIsEmpty(List<Product> addProducts);
 
+	public List<Product> findByText(String text);
+
 }

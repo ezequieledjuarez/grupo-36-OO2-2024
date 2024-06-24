@@ -23,6 +23,7 @@ public class ViewRouteHelper {
 	public static final String PRODUCTS_ADD = "/products/add";
 	public static final String PRODUCT_INDEX = "products/index";
 	public static final String PRODUCT_EDIT = "products/edit";
+	public static final String PRODUCTS_FIND = "products/find/";
 
 	
 	//LOT

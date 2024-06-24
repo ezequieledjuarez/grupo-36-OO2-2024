@@ -1,5 +1,8 @@
 package com.unla.grupo36.controllers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,13 +46,9 @@ public class ProductController {
 
 	@PostMapping("/add")
 	public RedirectView create(@ModelAttribute("product") ProductDTO productDTO) {
-		productService.insertOrUpdate(new Product(
-										productDTO.getName(), 
-										productDTO.getDescription(), 
-										productDTO.getPurchasePrice(), 
-										productDTO.getSellingPrice(), 
-										productDTO.getId(),
-										productDTO.isAvailable()));
+		productService.insertOrUpdate(
+				new Product(productDTO.getName(), productDTO.getDescription(), productDTO.getPurchasePrice(),
+						productDTO.getSellingPrice(), productDTO.getId(), productDTO.isAvailable()));
 		return new RedirectView(ViewRouteHelper.PRODUCT_ROOT);
 	}
 
@@ -64,8 +63,34 @@ public class ProductController {
 	@GetMapping("/edit/{id}")
 	public ModelAndView getPartial(@PathVariable("id") int id) throws Exception {
 		ModelAndView mAV = new ModelAndView(ViewRouteHelper.PRODUCT_EDIT);
-		ProductDTO productDTO  = modelMapper.map(productService.findById(id).get(), ProductDTO.class);
+		ProductDTO productDTO = modelMapper.map(productService.findById(id).get(), ProductDTO.class);
 		mAV.addObject("product", productDTO);
 		return mAV;
 	}
+
+	@GetMapping("/find")
+	public ModelAndView searchProduct(String name) throws Exception {
+		ModelAndView mAV = new ModelAndView(ViewRouteHelper.PRODUCT_INDEX);
+		List<Product> productsFinded = productService.findByText(name);
+		List<ProductDTO>productsDTO =  new ArrayList<>();
+		
+		for (Product product : productsFinded) {
+			productsDTO.add(modelMapper.map(product, ProductDTO.class));
+		}
+		mAV.addObject("products", productsFinded);
+		return mAV;
+	}	
+	
+	@GetMapping("/show")
+	public ModelAndView showFindedProduct(@PathVariable("text") String text) throws Exception {
+		ModelAndView mAV = new ModelAndView(ViewRouteHelper.PRODUCTS_FIND);
+		List<Product> productsFinded = productService.findByText(text);
+		List<ProductDTO>productsDTO =  new ArrayList<>();
+		
+		for (Product product : productsFinded) {
+			productsDTO.add(modelMapper.map(product, ProductDTO.class));
+		}
+		mAV.addObject("productsFinded", productsFinded);
+		return mAV;
+	}	
 }

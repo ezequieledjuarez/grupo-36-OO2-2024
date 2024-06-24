@@ -56,4 +56,11 @@ public class ProductService implements IProductService {
 		
 	}
 
+	@Override
+	public List<Product> findByText(String text) {
+		//productRepository.findAll().stream().filter(product ->StringUtils.containsIgnoreCase(product.getName(), text)).collect(Collectors.toList());
+
+		return productRepository.findByProductName(text);
+	}
+
 }
